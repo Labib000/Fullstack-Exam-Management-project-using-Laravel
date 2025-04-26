@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Models\User;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -11,6 +12,21 @@ use Illuminate\Support\Facades\Hash;
 
 class authController extends Controller
 {
+    public function adminIndex()
+{
+    try {
+        $admins = User::all();
+
+        if ($admins->isEmpty()) {
+            return response()->json(['message' => 'No admins found'], 404);
+        }
+
+        return response()->json(['admins' => $admins]);
+    } catch (Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
     public function login(Request $request)
 {
     $request->validate([

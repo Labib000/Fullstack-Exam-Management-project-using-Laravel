@@ -59,5 +59,7 @@ Route::middleware(['auth:sanctum','checkrole:admin'])->group(function () {
         Route::get('students/{id}', [userController::class, 'show']);
         Route::put('students/edit/{id}', [userController::class, 'update']);
         Route::delete('students/{id}/delete', [userController::class, 'destroy']);
+        Route::get('/admins', [authController::class, 'adminIndex']);
+
 
 });
