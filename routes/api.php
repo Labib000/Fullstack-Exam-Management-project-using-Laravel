@@ -22,14 +22,7 @@ Route::middleware('auth:sanctum')->post('/logout', [authController::class, 'sign
 Route::middleware('auth:sanctum')->post('/students/logout', [userController::class, 'stdlogout']);
 
 
-// Route::group(['middleware'=>["auth:sanctum","checkrole:admin"]],function(){
-//     Route::get('students', [userController::class, 'index']);
-//     Route::get('students/{id}', [userController::class, 'show']);
-//     Route::put('students/edit/{id}', [userController::class, 'update']);
-//     Route::delete('students/{id}/delete', [userController::class, 'destroy']);
-//     // Route::post('students/logout', [userController::class, 'logout']);
-  
-// });
+
 Route::post('students', [userController::class, 'store']);
 Route::post('students/login', [userController::class, 'login']);
 
@@ -63,3 +56,19 @@ Route::middleware(['auth:sanctum','checkrole:admin'])->group(function () {
 
 
 });
+
+
+
+
+
+
+
+
+// Route::group(['middleware'=>["auth:sanctum","checkrole:admin"]],function(){
+//     Route::get('students', [userController::class, 'index']);
+//     Route::get('students/{id}', [userController::class, 'show']);
+//     Route::put('students/edit/{id}', [userController::class, 'update']);
+//     Route::delete('students/{id}/delete', [userController::class, 'destroy']);
+//     // Route::post('students/logout', [userController::class, 'logout']);
+  
+// });
