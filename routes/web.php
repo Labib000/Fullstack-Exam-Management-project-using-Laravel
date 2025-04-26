@@ -14,7 +14,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/table', function(){
+Route::get('/student/table', function(){
 
         return view('admin.table');
     });
@@ -39,5 +39,9 @@ Route::get('/admin/table', function(){
     
     Route::get('/moderator/dashboard', function () {
         return view('moderators.moderator-dashboard');
+    });
+    
+    Route::get('/moderator/table', function () {
+        return view('admin.moderator-table');
     });
     

@@ -67,8 +67,16 @@
                 <a href="/admin/form" class="nav-link">➕ Add Student</a>
             </li>
             <li class="nav-item" id="studentDetailsLink">
-                <a href="/admin/table" class="nav-link">📄 Student Details</a>
+                <a href="/student/table" class="nav-link">📄 Student Details</a>
             </li>
+            <div class="section-title" id="moderatorSectionTitle">MODERATORS</div>
+<li class="nav-item" id="addModeratorLink">
+    <a href="/moderators/add" class="nav-link">➕ Add Moderator</a>
+</li>
+<li class="nav-item" id="moderatorDetailsLink">
+    <a href="/moderator/table" class="nav-link">📋 Moderator Details</a>
+</li>
+
 
             <!-- EXAM SECTION -->
             <div class="section-title">EXAMS</div>
@@ -164,30 +172,60 @@
             document.querySelector('.nav').appendChild(allExamsLink); // Dynamically add "All Exams" for Students
         }
 
-        // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', function () {
-            fetch('/api/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('admin_token') // assuming token is stored in localStorage
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    localStorage.removeItem('admin_token'); // clear the token if stored
-                    localStorage.removeItem('moderator_token');
-                    localStorage.removeItem('student_token');
-                    window.location.href = '/';
-                } else {
-                    alert('Logout failed');
-                }
-            })
-            .catch(error => {
-                console.error('Logout Error:', error);
-                alert('Something went wrong during logout.');
-            });
-        });
+        function showAdminSidebar() {
+    // Existing student and exam links
+    document.getElementById('studentsSectionTitle').style.display = 'block';
+    document.getElementById('addStudentLink').style.display = 'block';
+    document.getElementById('studentDetailsLink').style.display = 'block';
+    document.getElementById('addExamLink').style.display = 'block';
+    document.getElementById('examResultsLink').style.display = 'block';
+    document.getElementById('examListLink').style.display = 'block';
+    document.getElementById('myExamsLink').style.display = 'block';
+
+    // New Moderator Links
+    document.getElementById('moderatorSectionTitle').style.display = 'block';
+    document.getElementById('addModeratorLink').style.display = 'block';
+    document.getElementById('moderatorDetailsLink').style.display = 'block';
+}
+
+function showModeratorSidebar() {
+    // Moderator access
+    document.getElementById('studentsSectionTitle').style.display = 'block';
+    document.getElementById('addStudentLink').style.display = 'none';
+    document.getElementById('studentDetailsLink').style.display = 'block';
+    document.getElementById('addExamLink').style.display = 'block';
+    document.getElementById('examResultsLink').style.display = 'block';
+    document.getElementById('examListLink').style.display = 'block';
+    document.getElementById('myExamsLink').style.display = 'none';
+
+    // Hide Moderator Section
+    document.getElementById('moderatorSectionTitle').style.display = 'none';
+    document.getElementById('addModeratorLink').style.display = 'none';
+    document.getElementById('moderatorDetailsLink').style.display = 'none';
+}
+
+function showStudentSidebar() {
+    // Student access
+    document.getElementById('studentsSectionTitle').style.display = 'none';
+    document.getElementById('addStudentLink').style.display = 'none';
+    document.getElementById('studentDetailsLink').style.display = 'none';
+    document.getElementById('addExamLink').style.display = 'none';
+    document.getElementById('examResultsLink').style.display = 'none';
+    document.getElementById('examListLink').style.display = 'none';
+    document.getElementById('myExamsLink').style.display = 'block';
+
+    // Hide Moderator Section
+    document.getElementById('moderatorSectionTitle').style.display = 'none';
+    document.getElementById('addModeratorLink').style.display = 'none';
+    document.getElementById('moderatorDetailsLink').style.display = 'none';
+
+    // Add All Exams link for student
+    const allExamsLink = document.createElement('li');
+    allExamsLink.classList.add('nav-item');
+    allExamsLink.innerHTML = '<a href="/exams/all" class="nav-link">📋 All Exams</a>';
+    document.querySelector('.nav').appendChild(allExamsLink);
+}
+
     </script>
 </body>
 </html>

@@ -179,7 +179,7 @@
 let allStudents = [];   // full list fetched from API
 let filteredStudents = []; // after search
 let currentPage = 1;
-const studentsPerPage = 10;
+const studentsPerPage = 5;
 let currentStatus = 'approved';  // default status
 
 function loadStudents(status = 'approved') {

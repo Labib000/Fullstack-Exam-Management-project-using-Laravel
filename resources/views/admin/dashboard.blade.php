@@ -234,5 +234,47 @@
                 }
             });
         }
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            fetch('/api/moderators/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('admin_token') // assuming token is stored in localStorage
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success alert with SweetAlert2
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Logged out successfully!',
+                        text: 'You have been logged out. Redirecting...',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        localStorage.removeItem('admin_token'); // Remove the token from localStorage
+                        window.location.href = '/'; // Redirect to home
+                    });
+                } else {
+                    // Show error alert with SweetAlert2
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Logout failed!',
+                        text: 'Something went wrong during logout.',
+                        confirmButtonText: 'Try Again'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Logout Error:', error);
+                // Show error alert with SweetAlert2
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Logout failed!',
+                    text: 'Something went wrong during logout.',
+                    confirmButtonText: 'Try Again'
+                });
+            });
+        });
     </script>
 @endsection
