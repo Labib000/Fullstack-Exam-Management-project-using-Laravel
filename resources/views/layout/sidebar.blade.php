@@ -191,13 +191,24 @@
             <div class="logo-container">
                 <img src="{{ asset('images/technobatanagar-logo.jpg') }}" alt="College Logo" class="logo img-fluid">
             </div>
-            <h5 class="panel-title text-center" id="panelHeading">Admin Panel</h5>
+            <h5 class="panel-title text-center" id="panelHeading">Dashboard</h5>
         </div>
 
         <ul class="nav flex-column">
-            <li class="nav-item">
+            <!-- DASHBOARD LINKS - Role specific -->
+            <li class="nav-item" id="adminDashboardLink">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i> Dashboard
+                    <i class="nav-icon fas fa-tachometer-alt"></i> Admin Dashboard
+                </a>
+            </li>
+            <li class="nav-item" id="moderatorDashboardLink">
+                <a href="/moderator/dashboard" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i> Moderator Dashboard
+                </a>
+            </li>
+            <li class="nav-item" id="studentDashboardLink">
+                <a href="/student/dashboard" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i> Student Dashboard
                 </a>
             </li>
 
@@ -232,7 +243,7 @@
             </li>
 
             <!-- EXAM SECTION -->
-            <div class="section-title">
+            <div class="section-title" id="examSectionTitle">
                 <i class="fas fa-file-alt me-2"></i>EXAMS
             </div>
             <li class="nav-item" id="addExamLink">
@@ -255,22 +266,27 @@
                     <i class="nav-icon fas fa-file-signature"></i> My Exams
                 </a>
             </li>
+            <li class="nav-item" id="allExamsLink">
+                <a href="/exams/all" class="nav-link">
+                    <i class="nav-icon fas fa-clipboard-check"></i> All Exams
+                </a>
+            </li>
 
             <!-- OTHERS SECTION -->
-            <div class="section-title">
+            <div class="section-title" id="othersSectionTitle">
                 <i class="fas fa-cogs me-2"></i>OTHERS
             </div>
-            <li class="nav-item">
+            <li class="nav-item" id="coursesLink">
                 <a href="/courses" class="nav-link">
                     <i class="nav-icon fas fa-book"></i> Courses
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="reportsLink">
                 <a href="/reports" class="nav-link">
                     <i class="nav-icon fas fa-chart-line"></i> Reports
                 </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" id="settingsLink">
                 <a href="/settings" class="nav-link">
                     <i class="nav-icon fas fa-cog"></i> Settings
                 </a>
@@ -291,7 +307,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const role = localStorage.getItem('admin_token') || localStorage.getItem('moderator_token') || localStorage.getItem('student_token');
+            // Check which token exists to determine the role
+            const hasAdminToken = localStorage.getItem('admin_token') !== null;
+            const hasModeratorToken = localStorage.getItem('moderator_token') !== null;
+            const hasStudentToken = localStorage.getItem('student_token') !== null;
             
             // Add active class to current page link
             const currentPath = window.location.pathname;
@@ -302,86 +321,122 @@
                 }
             });
             
-            // Check if role exists and determine which role is logged in
-            if (localStorage.getItem('admin_token')) {
+            // Determine which role is logged in and show appropriate sidebar
+            if (hasAdminToken) {
                 document.getElementById('panelHeading').textContent = 'Admin Panel';
-                // Admin has full access
                 showAdminSidebar();
-            } else if (localStorage.getItem('moderator_token')) {
+            } else if (hasModeratorToken) {
                 document.getElementById('panelHeading').textContent = 'Moderator Panel';
-                // Moderator access: Can see student-related sections and exams
                 showModeratorSidebar();
-            } else if (localStorage.getItem('student_token')) {
+            } else if (hasStudentToken) {
                 document.getElementById('panelHeading').textContent = 'Student Panel';
-                // Student access: Only see My Exams and All Exams
                 showStudentSidebar();
             }
             
             // Logout functionality
-        //     document.getElementById('logoutBtn').addEventListener('click', function() {
-        //         // Clear all tokens
-        //         localStorage.removeItem('admin_token');
-        //         localStorage.removeItem('moderator_token');
-        //         localStorage.removeItem('student_token');
+            // document.getElementById('logoutBtn').addEventListener('click', function() {
+            //     // Clear all tokens
+            //     localStorage.removeItem('admin_token');
+            //     localStorage.removeItem('moderator_token');
+            //     localStorage.removeItem('student_token');
                 
-        //         // Redirect to login page
-        //         window.location.href = '/login';
-        //     });
-        // });
+            //     // Redirect to login page
+            //     window.location.href = '/login';
+            // });
+        });
 
         // Functions to Show/Hide Sections based on Role
         function showAdminSidebar() {
-            // Existing student and exam links
+            // Show only Admin Dashboard
+            document.getElementById('adminDashboardLink').style.display = 'block';
+            document.getElementById('moderatorDashboardLink').style.display = 'none';
+            document.getElementById('studentDashboardLink').style.display = 'none';
+            
+            // Student section
             document.getElementById('studentsSectionTitle').style.display = 'block';
             document.getElementById('addStudentLink').style.display = 'block';
             document.getElementById('studentDetailsLink').style.display = 'block';
-            document.getElementById('addExamLink').style.display = 'block';
-            document.getElementById('examResultsLink').style.display = 'block';
-            document.getElementById('examListLink').style.display = 'block';
-            document.getElementById('myExamsLink').style.display = 'block';
-
-            // New Moderator Links
+            
+            // Moderator section
             document.getElementById('moderatorSectionTitle').style.display = 'block';
             document.getElementById('addModeratorLink').style.display = 'block';
             document.getElementById('moderatorDetailsLink').style.display = 'block';
-        }
-
-        function showModeratorSidebar() {
-            // Moderator access
-            document.getElementById('studentsSectionTitle').style.display = 'block';
-            document.getElementById('addStudentLink').style.display = 'none';
-            document.getElementById('studentDetailsLink').style.display = 'block';
+            
+            // Exam section
+            document.getElementById('examSectionTitle').style.display = 'block';
             document.getElementById('addExamLink').style.display = 'block';
             document.getElementById('examResultsLink').style.display = 'block';
             document.getElementById('examListLink').style.display = 'block';
-            document.getElementById('myExamsLink').style.display = 'none';
+            document.getElementById('myExamsLink').style.display = 'none'; // Admin doesn't see My Exams
+            document.getElementById('allExamsLink').style.display = 'block';
+            
+            // Others section
+            document.getElementById('othersSectionTitle').style.display = 'block';
+            document.getElementById('coursesLink').style.display = 'block';
+            document.getElementById('reportsLink').style.display = 'block';
+            document.getElementById('settingsLink').style.display = 'block';
+        }
 
+        function showModeratorSidebar() {
+            // Show only Moderator Dashboard
+            document.getElementById('adminDashboardLink').style.display = 'none';
+            document.getElementById('moderatorDashboardLink').style.display = 'block';
+            document.getElementById('studentDashboardLink').style.display = 'none';
+            
+            // Student section - no add student
+            document.getElementById('studentsSectionTitle').style.display = 'block';
+            document.getElementById('addStudentLink').style.display = 'none'; // Moderator can't add students
+            document.getElementById('studentDetailsLink').style.display = 'block';
+            
             // Hide Moderator Section
-            document.getElementById('moderatorSectionTitle').style.display = 'none';
-            document.getElementById('addModeratorLink').style.display = 'none';
-            document.getElementById('moderatorDetailsLink').style.display = 'none';
+            document.getElementById('moderatorSectionTitle').style.display = 'block';
+            document.getElementById('addModeratorLink').style.display = 'none'; // Moderator can't add moderators
+            document.getElementById('moderatorDetailsLink').style.display = 'block';
+            
+            // Exam section
+            document.getElementById('examSectionTitle').style.display = 'block';
+            document.getElementById('addExamLink').style.display = 'block';
+            document.getElementById('examResultsLink').style.display = 'block';
+            document.getElementById('examListLink').style.display = 'block';
+            document.getElementById('myExamsLink').style.display = 'none'; // Moderator doesn't see My Exams
+            document.getElementById('allExamsLink').style.display = 'block';
+            
+            // Others section
+            document.getElementById('othersSectionTitle').style.display = 'block';
+            document.getElementById('coursesLink').style.display = 'block';
+            document.getElementById('reportsLink').style.display = 'block';
+            document.getElementById('settingsLink').style.display = 'block';
         }
 
         function showStudentSidebar() {
-            // Student access
+            // Show only Student Dashboard
+            document.getElementById('adminDashboardLink').style.display = 'none';
+            document.getElementById('moderatorDashboardLink').style.display = 'none';
+            document.getElementById('studentDashboardLink').style.display = 'block';
+            
+            // Hide Student section
             document.getElementById('studentsSectionTitle').style.display = 'none';
             document.getElementById('addStudentLink').style.display = 'none';
             document.getElementById('studentDetailsLink').style.display = 'none';
-            document.getElementById('addExamLink').style.display = 'none';
-            document.getElementById('examResultsLink').style.display = 'none';
-            document.getElementById('examListLink').style.display = 'none';
-            document.getElementById('myExamsLink').style.display = 'block';
-
+            
             // Hide Moderator Section
             document.getElementById('moderatorSectionTitle').style.display = 'none';
             document.getElementById('addModeratorLink').style.display = 'none';
             document.getElementById('moderatorDetailsLink').style.display = 'none';
-
-            // Add All Exams link for student
-            const allExamsLink = document.createElement('li');
-            allExamsLink.classList.add('nav-item');
-            allExamsLink.innerHTML = '<a href="/exams/all" class="nav-link"><i class="nav-icon fas fa-clipboard-check"></i> All Exams</a>';
-            document.querySelector('.nav').appendChild(allExamsLink);
+            
+            // Show limited Exam section
+            document.getElementById('examSectionTitle').style.display = 'block';
+            document.getElementById('addExamLink').style.display = 'none';
+            document.getElementById('examResultsLink').style.display = 'none';
+            document.getElementById('examListLink').style.display = 'block'; // Students can see Exam List
+            document.getElementById('myExamsLink').style.display = 'block'; // Only students see My Exams
+            document.getElementById('allExamsLink').style.display = 'block'; // Students can see All Exams
+            
+            // Hide Others section
+            document.getElementById('othersSectionTitle').style.display = 'none';
+            document.getElementById('coursesLink').style.display = 'none';
+            document.getElementById('reportsLink').style.display = 'none';
+            document.getElementById('settingsLink').style.display = 'none';
         }
     </script>
 </body>
