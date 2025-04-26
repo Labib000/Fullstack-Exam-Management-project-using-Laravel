@@ -1,0 +1,131 @@
+/* General body styling */
+body {
+    margin: 0;
+    height: 100vh;
+    background: url('/images/bg-wave.svg') no-repeat center center;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Container holding both panels */
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    height: 90%;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1); /* Light overlay so text is readable */
+}
+
+/* Left Panel */
+.left-panel {
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(3px);
+}
+
+/* Animated college image */
+.left-panel .photo {
+    width: 80%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* College description */
+.college-about {
+    font-size: 16px;
+    color: #ffffff;
+    max-width: 80%;
+    margin-top: 10px;
+    line-height: 1.6;
+    margin-left: 3rem;
+}
+
+/* Right Panel */
+.right-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: transparent; /* Let SVG show through */
+}
+
+/* Form wrapper */
+.form-wrapper {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(204, 201, 201, 0.95); /* Slight transparency */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Inputs */
+input {
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+button {
+    padding: 12px;
+    border: none;
+    background-color: #4e54c8;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #3c42a5;
+}
+
+/* Titles */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Toggle text */
+.toggle {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+}
+
+.toggle span {
+    color: #4e54c8;
+    cursor: pointer;
+    text-decoration: underline;
+}
